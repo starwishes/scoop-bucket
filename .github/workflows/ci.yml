@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Checkout bucket
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           # Check the bucket out into a subdirectory: Pester walks the whole
           # tree it is pointed at, so with Scoop core checked out inside the
@@ -25,7 +25,7 @@ jobs:
           path: my_bucket
 
       - name: Checkout Scoop
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: ScoopInstaller/Scoop
           path: scoop_core
