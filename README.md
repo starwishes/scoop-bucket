@@ -22,6 +22,7 @@ scoop install starwishes/<app>
 | `7zip` | 26.04 | main |
 | `abdownloadmanager` | 1.10.4 | extras |
 | `adb` | 37.0.1 | main |
+| `codeg` | 0.35.1 | spacering-net/codeg *(自建)* |
 | `ffmpeg` | 9.0.2 | main |
 | `filelight` | 26.08-2202 | extras |
 | `gh` | 2.102.0 | main |
@@ -42,6 +43,7 @@ scoop install starwishes/<app>
 | `qbittorrent-enhanced` | 5.2.4.10 | extras |
 | `qview-nightly` | 18433912418 | versions |
 | `Rclone` | 1.75.1 | main |
+| `reviva` | 1.4.1 | mingchen666/Reviva *(自建)* |
 | `scoop-search` | 2.1.0 | — |
 | `streamdeck` | 7.6.0.23012 | extras |
 | `sudo` | 0.2020.01.26 | — |
@@ -57,7 +59,7 @@ scoop install starwishes/<app>
 
 ## 上游来源
 
-| 上游 bucket | 地址 |
+| 上游 bucket / 项目 | 地址 |
 | --- | --- |
 | main | <https://github.com/ScoopInstaller/Main> |
 | extras | <https://github.com/ScoopInstaller/Extras> |
@@ -67,6 +69,8 @@ scoop install starwishes/<app>
 | scoopet | <https://github.com/ivaquero/scoopet> |
 | abgo_bucket | <https://github.com/abgox/abgo_bucket> |
 | LingCore/WinShun | <https://github.com/LingCore/WinShun> |
+| spacering-net/codeg | <https://github.com/spacering-net/codeg> |
+| mingchen666/Reviva | <https://github.com/mingchen666/Reviva> |
 
 ## 相对上游做的改动
 
@@ -79,11 +83,15 @@ scoop install starwishes/<app>
   manifest 本身已使用动态 `$bucket`，无需改动；配套 `scripts/` 已 vendor。
 - `pixpin`
   原 manifest 依赖 `abgox/abgo_bucket` 的 `bin/utils.ps1`，已重写为自包含版本
-  （改用标准 `persist` 字段持久化 `Config` / `Data` / `History` / `OcrModel`），
-  写法参考了 `h404bi/dorado` 与 `ivaquero/scoopet`。
-- `winshun`
-  上游没有现成的 Scoop manifest，本仓库**自建**：取官方 portable zip，
-  数据目录固定在 %APPDATA%\WinShun / %LOCALAPPDATA%\WinShun，故无需 `persist`。
+  （改用标准 `persist` 字段持久化 `Config` / `Data` / `History` / `OcrModel`）。
+- `winshun` / `codeg` / `reviva`
+  上游没有现成的 Scoop manifest，本仓库**自建**：
+  - `winshun` 取官方 portable zip；数据目录在 AppData，无需 `persist`。
+  - `codeg` 是 Tauri NSIS 安装器，用 `#/dl.7z` 解包后在 `pre_install` 里清掉 `$PLUGINSDIR` 与 `uninstall.exe`。
+  - `reviva` 是 electron-builder NSIS 安装器，需两步解包：先解外层，再在 `pre_install` 里解嵌套的 `$PLUGINSDIR\app-64.7z`。
+
+这三个自建 manifest 的 `autoupdate` 都不写 `hash` —— Scoop 会自动从 GitHub release 的
+`digest` 字段取 SHA256（codeg/reviva），winshun 则从随附的 `SHA256SUMS.txt` 取。
 
 `scripts/` 下的 `.reg` 文件用于注册右键菜单与文件关联，保持与上游一致。
 
