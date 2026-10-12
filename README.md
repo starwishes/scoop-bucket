@@ -22,33 +22,21 @@ scoop install starwishes/<app>
 | `7zip` | 26.04 | main |
 | `abdownloadmanager` | 1.10.4 | extras |
 | `adb` | 37.0.1 | main |
-| `android-clt` | 15859902 | main |
-| `cherry-studio` | 2.1.4 | extras |
-| `dark` | 3.14.1 | main |
-| `everything-cli` | 1.1.0.38 | main |
-| `everything` | 1.4.1.1032 | extras |
-| `feishin` | 1.17.0 | extras |
 | `ffmpeg` | 9.0.2 | main |
 | `filelight` | 26.08-2202 | extras |
-| `Flow-Launcher` | 2.1.4 | extras |
 | `gh` | 2.102.0 | main |
 | `git` | 2.56.0.2 | main |
 | `github` | 3.6.6 | extras |
-| `Hiddify` | 4.1.1 | extras |
 | `innounp` | 2.71.1 | main |
 | `Joplin` | 3.7.21 | extras |
 | `keepassxc` | 2.7.12 | extras |
-| `kelivo` | 1.3.0 | extras |
 | `librewolf` | 157.0.1-1 | extras |
-| `Listary` | 6.3.5.94 | extras |
 | `lxmusic` | 2.12.6 | dorado |
 | `Meslo-NF` | 3.5.1 | nerd-fonts |
-| `Motrix` | 1.8.19 | extras |
 | `nodejs-lts` | 24.21.0 | main |
 | `obsidian` | 1.14.4 | extras |
 | `oh-my-posh` | 31.5.0 | main |
 | `PixPin` | 3.5.5.1 | abgox/abgo_bucket *(已重写)* |
-| `playnite` | 10.62 | extras |
 | `potplayer` | 260819 | extras |
 | `python311` | 3.11.9 | versions |
 | `qbittorrent-enhanced` | 5.2.4.10 | extras |
@@ -58,12 +46,11 @@ scoop install starwishes/<app>
 | `streamdeck` | 7.6.0.23012 | extras |
 | `sudo` | 0.2020.01.26 | main |
 | `telegram` | 7.2.9 | extras |
-| `thunderbird` | 157.0.1 | extras |
+| `thunderbird` | 157.0.1 | — |
 | `TightVNC` | 2.8.90 | extras |
 | `twinkle-tray` | 1.17.2 | extras |
 | `ungoogled-chromium` | 154.0.8037.97-1.1 | extras |
 | `vscode` | 1.141.0 | extras |
-| `Windhawk` | 1.7.3 | extras |
 | `windows-terminal` | 1.25.2733.0 | extras |
 | `yasb` | 2.0.7 | extras |
 
@@ -83,7 +70,7 @@ scoop install starwishes/<app>
 
 为了让 bucket 自包含、能直接在新机器上使用，对少数 manifest 做了本地化处理：
 
-- `everything` / `python311` / `vscode` / `windows-terminal`
+- `python311` / `vscode` / `windows-terminal`
   把硬编码的 `$bucketsdir\<上游bucket>\scripts\...` 改为 `$bucketsdir\$bucket\scripts\...`，
   并把所需的 `.reg` 脚本 vendor 到本仓库 `scripts/` 目录。
 - `7zip` / `git`
