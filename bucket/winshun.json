@@ -5,7 +5,8 @@
     "license": "MIT",
     "notes": [
         "需要管理员权限才能启用键盘拦截、NTFS 索引等功能，首次运行请以管理员身份启动。",
-        "设置与索引保存在 %APPDATA%\\WinShun 和 %LOCALAPPDATA%\\WinShun，不在安装目录，卸载后不会被清除。"
+        "设置与索引固定存放在本仓库的 persist\\winshun\\Profile 下：安装时会把 %APPDATA%\\WinShun 与 %LOCALAPPDATA%\\WinShun 改为指向它的目录联接（junction），因此数据不在 C 盘、重装系统后只要重新 scoop install 就能接回。",
+        "如果你的 %APPDATA%\\WinShun 或 %LOCALAPPDATA%\\WinShun 已经存在真实目录，脚本不会动它，会给出提示。"
     ],
     "architecture": {
         "64bit": {
@@ -19,6 +20,36 @@
             "WinShun.exe",
             "WinShun"
         ]
+    ],
+    "post_install": [
+        "$base = Join-Path $persist_dir 'Profile'",
+        "$links = @(",
+        "    @{ Path = (Join-Path $env:APPDATA 'WinShun');      Target = (Join-Path $base 'Roaming') },",
+        "    @{ Path = (Join-Path $env:LOCALAPPDATA 'WinShun'); Target = (Join-Path $base 'Local')   }",
+        ")",
+        "foreach ($l in $links) {",
+        "    ensure $l.Target | Out-Null",
+        "    $existing = Get-Item -LiteralPath $l.Path -Force -ErrorAction SilentlyContinue",
+        "    if ($existing) {",
+        "        if ($existing.LinkType -eq 'Junction' -and @($existing.Target) -contains $l.Target) { continue }",
+        "        warn \"$($l.Path) already exists; left untouched. Move it to $($l.Target), delete it, then re-run 'scoop install winshun'.\"",
+        "        continue",
+        "    }",
+        "    try { New-Item -ItemType Junction -Path $l.Path -Target $l.Target -ErrorAction Stop | Out-Null }",
+        "    catch { warn \"could not link $($l.Path) to $($l.Target): $($_.Exception.Message)\" }",
+        "}"
+    ],
+    "pre_uninstall": [
+        "if ($cmd -eq 'uninstall') {",
+        "    $base = Join-Path $persist_dir 'Profile'",
+        "    $targets = @((Join-Path $base 'Roaming'), (Join-Path $base 'Local'))",
+        "    foreach ($p in @((Join-Path $env:APPDATA 'WinShun'), (Join-Path $env:LOCALAPPDATA 'WinShun'))) {",
+        "        $i = Get-Item -LiteralPath $p -Force -ErrorAction SilentlyContinue",
+        "        if ($i -and $i.LinkType -eq 'Junction' -and (@($i.Target) | Where-Object { $targets -contains $_ })) {",
+        "            try { $i.Attributes = 'Directory'; Remove-Item -LiteralPath $p -Force -ErrorAction Stop } catch { }",
+        "        }",
+        "    }",
+        "}"
     ],
     "checkver": {
         "github": "https://github.com/LingCore/WinShun"

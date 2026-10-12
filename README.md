@@ -91,7 +91,7 @@ scoop install starwishes/<app>
 
 上游没有现成的 Scoop manifest，以下为**自建**，不要被上游内容覆盖：
 
-- `winshun` 取官方 portable zip；数据目录在 AppData，无需 `persist`。
+- `winshun` 取官方 portable zip。`post_install` 会把 %APPDATA%\WinShun 与 %LOCALAPPDATA%\WinShun 改成指向 `persist\winshun\Profile` 的**目录联接（junction）**，把数据钉在 D 盘（不在 C 盘；重装系统后重新 `scoop install` 即可接回）。若这两个路径已存在**真实目录**，脚本不动它、只给提示。`pre_uninstall` 在卸载时移除这两个联接、保留数据。
 - `codeg` 是 Tauri NSIS 安装器，用 `#/dl.7z` 解包后在 `pre_install` 里清掉 `$PLUGINSDIR` 与 `uninstall.exe`。
 - `reviva` 是 electron-builder NSIS 安装器，需两步解包：先解外层，再在 `pre_install` 里解嵌套的 `$PLUGINSDIR\app-64.7z`。
 - `bitcomet` 取官方免安装 ZIP；用 `persist` 保存 `BitComet.xml`、`Downloads.xml`、`torrents`、`share`、`archive`，
