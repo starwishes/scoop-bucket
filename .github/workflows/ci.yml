@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test manifests
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout bucket
+        uses: actions/checkout@v4
+        with:
+          # Need at least 2 commits so changed-file detection works
+          fetch-depth: 2
+
+      - name: Checkout Scoop
+        uses: actions/checkout@v4
+        with:
+          repository: ScoopInstaller/Scoop
+          path: scoop_core
+
+      - name: Install test dependencies
+        shell: pwsh
+        run: |
+          Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+          Install-Module BuildHelpers -Force -Scope CurrentUser
+          Install-Module Pester -MinimumVersion 5.2.0 -Force -Scope CurrentUser -SkipPublisherCheck
+
+      - name: Run bucket tests
+        shell: pwsh
+        run: |
+          $env:SCOOP_HOME = "$(Convert-Path '.\scoop_core')"
+          .\bin\test.ps1
