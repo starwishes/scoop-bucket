@@ -17,8 +17,12 @@ jobs:
       - name: Checkout bucket
         uses: actions/checkout@v4
         with:
-          # Need at least 2 commits so changed-file detection works
+          # Check the bucket out into a subdirectory: Pester walks the whole
+          # tree it is pointed at, so with Scoop core checked out inside the
+          # repo it would also run Scoop core's own test suite (which needs
+          # lessmsi/innounp and fails on a bare runner).
           fetch-depth: 2
+          path: my_bucket
 
       - name: Checkout Scoop
         uses: actions/checkout@v4
@@ -37,4 +41,9 @@ jobs:
         shell: pwsh
         run: |
           $env:SCOOP_HOME = "$(Convert-Path '.\scoop_core')"
-          .\bin\test.ps1
+          # Validate every manifest on each run. With CI=true, the bucket test
+          # harness only validates files changed by this commit, and that
+          # changed-file detection silently returns nothing here - which would
+          # make the schema check pass without checking anything.
+          $env:CI = 'false'
+          .\my_bucket\bin\test.ps1
