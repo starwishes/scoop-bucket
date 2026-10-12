@@ -27,7 +27,7 @@ scoop install starwishes/<app>
 | `gh` | 2.102.0 | main |
 | `git` | 2.56.0.2 | main |
 | `github` | 3.6.6 | extras |
-| `innounp` | 2.71.1 | main |
+| `innounp` | 2.71.1 | — |
 | `Joplin` | 3.7.21 | extras |
 | `keepassxc` | 2.7.12 | extras |
 | `librewolf` | 157.0.1-1 | extras |
@@ -42,9 +42,9 @@ scoop install starwishes/<app>
 | `qbittorrent-enhanced` | 5.2.4.10 | extras |
 | `qview-nightly` | 18433912418 | versions |
 | `Rclone` | 1.75.1 | main |
-| `scoop-search` | 2.1.0 | main |
+| `scoop-search` | 2.1.0 | — |
 | `streamdeck` | 7.6.0.23012 | extras |
-| `sudo` | 0.2020.01.26 | main |
+| `sudo` | 0.2020.01.26 | — |
 | `telegram` | 7.2.9 | extras |
 | `thunderbird` | 157.0.1 | — |
 | `TightVNC` | 2.8.90 | extras |
@@ -52,6 +52,7 @@ scoop install starwishes/<app>
 | `ungoogled-chromium` | 154.0.8037.97-1.1 | extras |
 | `vscode` | 1.141.0 | extras |
 | `windows-terminal` | 1.25.2733.0 | extras |
+| `winshun` | 0.7.3 | LingCore/WinShun *(自建)* |
 | `yasb` | 2.0.7 | extras |
 
 ## 上游来源
@@ -65,6 +66,7 @@ scoop install starwishes/<app>
 | dorado | <https://github.com/h404bi/dorado> |
 | scoopet | <https://github.com/ivaquero/scoopet> |
 | abgo_bucket | <https://github.com/abgox/abgo_bucket> |
+| LingCore/WinShun | <https://github.com/LingCore/WinShun> |
 
 ## 相对上游做的改动
 
@@ -79,6 +81,9 @@ scoop install starwishes/<app>
   原 manifest 依赖 `abgox/abgo_bucket` 的 `bin/utils.ps1`，已重写为自包含版本
   （改用标准 `persist` 字段持久化 `Config` / `Data` / `History` / `OcrModel`），
   写法参考了 `h404bi/dorado` 与 `ivaquero/scoopet`。
+- `winshun`
+  上游没有现成的 Scoop manifest，本仓库**自建**：取官方 portable zip，
+  数据目录固定在 %APPDATA%\WinShun / %LOCALAPPDATA%\WinShun，故无需 `persist`。
 
 `scripts/` 下的 `.reg` 文件用于注册右键菜单与文件关联，保持与上游一致。
 
