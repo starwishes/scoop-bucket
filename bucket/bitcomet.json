@@ -1,0 +1,28 @@
+{
+    "version": "2.22",
+    "description": "BitComet（比特彗星）—— 免费、快速的 BitTorrent / HTTP / FTP 下载客户端，支持磁力链接、长效种子、内网穿透等。官方免安装 ZIP 版。",
+    "homepage": "https://www.bitcomet.com/",
+    "license": {
+        "identifier": "Freeware",
+        "url": "https://www.bitcomet.com/cn/license"
+    },
+    "url": "https://download.bitcomet.com/achive/BitComet_2.22.zip",
+    "hash": "abb3626d48820070000d1eefaf1cf22a37c01781d86c90ab0582414915d46c06",
+    "pre_install": [
+        "'BitComet.xml', 'Downloads.xml' | ForEach-Object {",
+        "    if (!(Test-Path \"$persist_dir\\$_\")) { New-Item \"$dir\\$_\" | Out-Null }",
+        "}"
+    ],
+    "persist": ["BitComet.xml", "Downloads.xml", "archive", "share", "torrents"],
+    "architecture": {
+        "64bit": { "shortcuts": [["BitComet_x64.exe", "BitComet"]] },
+        "32bit": { "shortcuts": [["BitComet.exe", "BitComet"]] }
+    },
+    "checkver": {
+        "url": "https://www.bitcomet.com/cn/archive",
+        "regex": "BitComet_([0-9.]+)[.]zip"
+    },
+    "autoupdate": {
+        "url": "https://download.bitcomet.com/achive/BitComet_$version.zip"
+    }
+}

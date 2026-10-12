@@ -22,6 +22,7 @@ scoop install starwishes/<app>
 | `7zip` | 26.04 | main |
 | `abdownloadmanager` | 1.10.4 | extras |
 | `adb` | 37.0.1 | main |
+| `bitcomet` | 2.22 | BitComet 官网 *(自建)* |
 | `codeg` | 0.35.1 | spacering-net/codeg *(自建)* |
 | `ffmpeg` | 9.0.2 | main |
 | `filelight` | 26.08-2202 | extras |
@@ -71,6 +72,7 @@ scoop install starwishes/<app>
 | LingCore/WinShun | <https://github.com/LingCore/WinShun> |
 | spacering-net/codeg | <https://github.com/spacering-net/codeg> |
 | mingchen666/Reviva | <https://github.com/mingchen666/Reviva> |
+| BitComet | <https://www.bitcomet.com/> |
 
 ## 相对上游做的改动
 
@@ -84,14 +86,20 @@ scoop install starwishes/<app>
 - `pixpin`
   原 manifest 依赖 `abgox/abgo_bucket` 的 `bin/utils.ps1`，已重写为自包含版本
   （改用标准 `persist` 字段持久化 `Config` / `Data` / `History` / `OcrModel`）。
-- `winshun` / `codeg` / `reviva`
-  上游没有现成的 Scoop manifest，本仓库**自建**：
-  - `winshun` 取官方 portable zip；数据目录在 AppData，无需 `persist`。
-  - `codeg` 是 Tauri NSIS 安装器，用 `#/dl.7z` 解包后在 `pre_install` 里清掉 `$PLUGINSDIR` 与 `uninstall.exe`。
-  - `reviva` 是 electron-builder NSIS 安装器，需两步解包：先解外层，再在 `pre_install` 里解嵌套的 `$PLUGINSDIR\app-64.7z`。
 
-这三个自建 manifest 的 `autoupdate` 都不写 `hash` —— Scoop 会自动从 GitHub release 的
-`digest` 字段取 SHA256（codeg/reviva），winshun 则从随附的 `SHA256SUMS.txt` 取。
+### 本仓库自建的 manifest
+
+上游没有现成的 Scoop manifest，以下为**自建**，不要被上游内容覆盖：
+
+- `winshun` 取官方 portable zip；数据目录在 AppData，无需 `persist`。
+- `codeg` 是 Tauri NSIS 安装器，用 `#/dl.7z` 解包后在 `pre_install` 里清掉 `$PLUGINSDIR` 与 `uninstall.exe`。
+- `reviva` 是 electron-builder NSIS 安装器，需两步解包：先解外层，再在 `pre_install` 里解嵌套的 `$PLUGINSDIR\app-64.7z`。
+- `bitcomet` 取官方免安装 ZIP；用 `persist` 保存 `BitComet.xml`、`Downloads.xml`、`torrents`、`share`、`archive`，
+  并在 `pre_install` 里预建那两个 xml（Scoop 对**不存在**的持久化文件会建成目录，必须先建文件）。
+
+这几条的 `autoupdate` 都不写 `hash`：`winshun` 从随附的 `SHA256SUMS.txt` 取；
+`codeg` / `reviva` 由 Scoop 自动读 GitHub release asset 的 `digest`；
+`bitcomet` 取不到哈希源时，Scoop 会直接下载该文件自行计算 SHA256。
 
 `scripts/` 下的 `.reg` 文件用于注册右键菜单与文件关联，保持与上游一致。
 
