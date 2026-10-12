@@ -5,7 +5,7 @@
     "license": "MIT",
     "notes": [
         "需要管理员权限才能启用键盘拦截、NTFS 索引等功能，首次运行请以管理员身份启动。",
-        "设置与索引固定存放在本仓库的 persist\\winshun\\Profile 下：安装时会把 %APPDATA%\\WinShun 与 %LOCALAPPDATA%\\WinShun 改为指向它的目录联接（junction），因此数据不在 C 盘、重装系统后只要重新 scoop install 就能接回。",
+        "设置与索引固定存放在本仓库的 persist\\winshun 下：安装时会把 %APPDATA%\\WinShun 与 %LOCALAPPDATA%\\WinShun 改为指向它的目录联接（junction），因此数据不在 C 盘、重装系统后只要重新 scoop install 就能接回。",
         "如果你的 %APPDATA%\\WinShun 或 %LOCALAPPDATA%\\WinShun 已经存在真实目录，脚本不会动它，会给出提示。"
     ],
     "architecture": {
@@ -22,7 +22,7 @@
         ]
     ],
     "post_install": [
-        "$base = Join-Path $persist_dir 'Profile'",
+        "$base = $persist_dir",
         "$links = @(",
         "    @{ Path = (Join-Path $env:APPDATA 'WinShun');      Target = (Join-Path $base 'Roaming') },",
         "    @{ Path = (Join-Path $env:LOCALAPPDATA 'WinShun'); Target = (Join-Path $base 'Local')   }",
@@ -41,7 +41,7 @@
     ],
     "pre_uninstall": [
         "if ($cmd -eq 'uninstall') {",
-        "    $base = Join-Path $persist_dir 'Profile'",
+        "    $base = $persist_dir",
         "    $targets = @((Join-Path $base 'Roaming'), (Join-Path $base 'Local'))",
         "    foreach ($p in @((Join-Path $env:APPDATA 'WinShun'), (Join-Path $env:LOCALAPPDATA 'WinShun'))) {",
         "        $i = Get-Item -LiteralPath $p -Force -ErrorAction SilentlyContinue",
