@@ -1,0 +1,55 @@
+{
+    "version": "4.17",
+    "description": "yarr（yet another RSS reader）—— 用 Go 编写的 Web RSS/Feed 阅读器：单个可执行文件内嵌 Web 界面与 SQLite，既可本机自用也可自托管。支持 RSS/Atom/RDF/JSON Feed、OPML 导入导出、正文抓取、RSSHub、访问认证、自动备份，以及 Fever 与 Google Reader 兼容 API。",
+    "homepage": "https://github.com/lizhian/yarr",
+    "license": "MIT",
+    "notes": [
+        "这是命令行版本（上游没有提供 Windows GUI/托盘构建）。运行 `yarr -open` 启动并自动打开浏览器，默认地址 http://127.0.0.1:7070 ，也可直接访问该地址。",
+        "数据库 storage.db 与备份目录 backups\\ 都保存在 $persist_dir ，升级或重装不会丢失。",
+        "默认只监听 127.0.0.1。若要对外提供服务，请先在「设置 > 访问认证」中启用认证。"
+    ],
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/lizhian/yarr/releases/download/v4.17/yarr_windows_amd64.zip",
+            "hash": "3bf7523a21320746b213c1ad5a425b3ea83b2792fea634b64325fa238399d31c"
+        },
+        "arm64": {
+            "url": "https://github.com/lizhian/yarr/releases/download/v4.17/yarr_windows_arm64.zip",
+            "hash": "51b06cae7aa7a8fe7b9b1f7c50cbce83544dbd60dce632cf2e17806a6158461c"
+        }
+    },
+    "pre_install": [
+        "if (Test-Path \"$dir\\yarr\") { Rename-Item \"$dir\\yarr\" 'yarr.exe' }",
+        "if (!(Test-Path \"$persist_dir\\storage.db\")) { New-Item \"$dir\\storage.db\" -ItemType File | Out-Null }"
+    ],
+    "bin": [
+        [
+            "yarr.exe",
+            "yarr"
+        ]
+    ],
+    "shortcuts": [
+        [
+            "yarr.exe",
+            "yarr",
+            "-open"
+        ]
+    ],
+    "persist": [
+        "storage.db",
+        "backups"
+    ],
+    "checkver": {
+        "github": "https://github.com/lizhian/yarr"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/lizhian/yarr/releases/download/v$version/yarr_windows_amd64.zip"
+            },
+            "arm64": {
+                "url": "https://github.com/lizhian/yarr/releases/download/v$version/yarr_windows_arm64.zip"
+            }
+        }
+    }
+}

@@ -56,6 +56,7 @@ scoop install starwishes/<app>
 | `vscode` | 1.141.0 | extras |
 | `windows-terminal` | 1.25.2733.0 | extras |
 | `winshun` | 0.7.3 | LingCore/WinShun *(自建)* |
+| `yarr` | 4.17 | lizhian/yarr *(自建)* |
 | `yasb` | 2.0.7 | extras |
 
 ## 上游来源
@@ -73,6 +74,7 @@ scoop install starwishes/<app>
 | spacering-net/codeg | <https://github.com/spacering-net/codeg> |
 | mingchen666/Reviva | <https://github.com/mingchen666/Reviva> |
 | BitComet | <https://www.bitcomet.com/> |
+| lizhian/yarr | <https://github.com/lizhian/yarr> |
 
 ## 相对上游做的改动
 
@@ -96,9 +98,10 @@ scoop install starwishes/<app>
 - `reviva` 是 electron-builder NSIS 安装器，需两步解包：先解外层，再在 `pre_install` 里解嵌套的 `$PLUGINSDIR\app-64.7z`。
 - `bitcomet` 取官方免安装 ZIP；用 `persist` 保存 `BitComet.xml`、`Downloads.xml`、`torrents`、`share`、`archive`，
   并在 `pre_install` 里预建那两个 xml（Scoop 对**不存在**的持久化文件会建成目录，必须先建文件）。
+- `yarr` 取官方免安装 ZIP（CLI 版）。上游包内是**无扩展名**的单文件 `yarr`，`pre_install` 把它重命名为 `yarr.exe` 才能建 shim；数据库 `storage.db` 走 `persist`，同样在 `pre_install` 里预建为文件。提供 `64bit` 与 `arm64` 两种架构。
 
 这几条的 `autoupdate` 都不写 `hash`：`winshun` 从随附的 `SHA256SUMS.txt` 取；
-`codeg` / `reviva` 由 Scoop 自动读 GitHub release asset 的 `digest`；
+`codeg` / `reviva` / `yarr` 由 Scoop 自动读 GitHub release asset 的 `digest`；
 `bitcomet` 取不到哈希源时，Scoop 会直接下载该文件自行计算 SHA256。
 
 `scripts/` 下的 `.reg` 文件用于注册右键菜单与文件关联，保持与上游一致。
