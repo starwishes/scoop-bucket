@@ -54,6 +54,7 @@ scoop install starwishes/<app>
 | `twinkle-tray` | 1.17.2 | extras |
 | `ungoogled-chromium` | 155.0.8059.39-1.1 | extras |
 | `vscode` | 1.141.2 | extras |
+| `wandao` | 1.5.3 | tllovesxs/wandao *(自建)* |
 | `windows-terminal` | 1.25.2733.0 | extras |
 | `winshun` | 0.8.0 | LingCore/WinShun *(自建)* |
 | `yasb` | 2.0.7 | extras |
@@ -73,6 +74,7 @@ scoop install starwishes/<app>
 | spacering-net/codeg | <https://github.com/spacering-net/codeg> |
 | mingchen666/Reviva | <https://github.com/mingchen666/Reviva> |
 | BitComet | <https://www.bitcomet.com/> |
+| tllovesxs/wandao | <https://github.com/tllovesxs/wandao> |
 
 ## 相对上游做的改动
 
@@ -96,9 +98,12 @@ scoop install starwishes/<app>
 - `reviva` 是 electron-builder NSIS 安装器，需两步解包：先解外层，再在 `pre_install` 里解嵌套的 `$PLUGINSDIR\app-64.7z`。
 - `bitcomet` 取官方免安装 ZIP；用 `persist` 保存 `BitComet.xml`、`Downloads.xml`、`torrents`、`share`、`archive`，
   并在 `pre_install` 里预建那两个 xml（Scoop 对**不存在**的持久化文件会建成目录，必须先建文件）。
+- `wandao` 是 Tauri NSIS 安装器（同样 `#/dl.7z` + 清 `$PLUGINSDIR`/`uninstall.exe`）。它把用户数据放在
+  %APPDATA%\wandao 而不是安装目录，所以**不需要 `persist`**；不走真安装器也顺带避开了它那段会去卸载
+  旧版、写注册表项的迁移钩子。注意它自带 Tauri 在线更新，用 Scoop 管理时不要在应用内更新。
 
 这几条的 `autoupdate` 都不写 `hash`：`winshun` 从随附的 `SHA256SUMS.txt` 取；
-`codeg` / `reviva` 由 Scoop 自动读 GitHub release asset 的 `digest`；
+`codeg` / `reviva` / `wandao` 由 Scoop 自动读 GitHub release asset 的 `digest`；
 `bitcomet` 取不到哈希源时，Scoop 会直接下载该文件自行计算 SHA256。
 
 `scripts/` 下的 `.reg` 文件用于注册右键菜单与文件关联，保持与上游一致。

@@ -1,0 +1,35 @@
+{
+    "version": "1.5.3",
+    "description": "万能导 Wandao —— 多平台知识库 Markdown 一键导入导出工具：把有道云笔记、飞书、语雀、阿里云知识库、知识星球、印象笔记、ima、OneNote、为知笔记、CSDN、知乎、微信公众号等平台的内容用自动化代替手动复制粘贴，尽量保留目录结构、图片与项目格式。",
+    "homepage": "https://github.com/tllovesxs/wandao",
+    "license": "AGPL-3.0-only",
+    "notes": [
+        "界面基于 WebView2 渲染，Windows 11 已内置；Windows 10 需要先装 Evergreen WebView2 Runtime。",
+        "用户数据（设置、已安装插件与 provider、任务记录、各平台访问凭据）保存在 %APPDATA%\\wandao，不在安装目录，因此升级或卸载都不会丢失；也可以用环境变量 WANDAO_USER_DATA_DIR 把它指到别的位置。",
+        "应用内置 Tauri 在线更新：在应用内点“检查更新”会另外安装一份独立的程序，与 Scoop 这份并存。用 Scoop 管理时请跳过应用内更新，改用 `scoop update wandao`。",
+        "上游安装器带旧版迁移逻辑（会尝试卸载旧版 Wandao 并写注册表项），本 manifest 不运行安装器、只解包，所以这些都不会发生；若你以前正常安装过 Wandao，两份会并存。"
+    ],
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/tllovesxs/wandao/releases/download/v1.5.3/Wandao-1.5.3-win-x64-setup.exe#/dl.7z",
+            "hash": "2d0d3daadd09ea6ae0f103f36c72f2d969fdd277c81a6319bf90c742cebf8281"
+        }
+    },
+    "pre_install": "Remove-Item \"$dir\\`$PLUGINSDIR\", \"$dir\\uninstall.exe\" -Recurse -Force -ErrorAction SilentlyContinue",
+    "shortcuts": [
+        [
+            "wandao.exe",
+            "万能导"
+        ]
+    ],
+    "checkver": {
+        "github": "https://github.com/tllovesxs/wandao"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/tllovesxs/wandao/releases/download/v$version/Wandao-$version-win-x64-setup.exe#/dl.7z"
+            }
+        }
+    }
+}
