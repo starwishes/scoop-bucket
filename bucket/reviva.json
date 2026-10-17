@@ -1,12 +1,12 @@
 {
-    "version": "1.4.1",
+    "version": "1.4.2",
     "description": "Local-first AI learning workspace. Wiki knowledge base, agents, skills and creation tools built around your own materials. A private NotebookLM alternative. 本地优先的 AI 学习工作台。",
     "homepage": "https://github.com/mingchen666/Reviva",
     "license": "Unknown",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/mingchen666/Reviva/releases/download/v1.4.1/Reviva-Windows-1.4.1-x64-Setup.exe#/dl.7z",
-            "hash": "99c5eabc44de18a8f0309f0cb398542772475cb6af1744576c2b66bb98c41f53"
+            "url": "https://github.com/mingchen666/Reviva/releases/download/v1.4.2/Reviva-Windows-1.4.2-x64-Setup.exe#/dl.7z",
+            "hash": "bc94d0a35cda926f7f0a61d7c3bda2e8987b8fe8ccb25ded00a8d7bbbce740a2"
         }
     },
     "pre_install": [
