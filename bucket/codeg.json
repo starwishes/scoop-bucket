@@ -1,12 +1,12 @@
 {
-    "version": "0.37.0",
+    "version": "0.38.0",
     "description": "Collaborative multi-agent AI coding workspace: aggregate sessions from Claude Code, Codex, OpenCode, Pi, Grok Build, etc. Desktop app, self-hosted server, or Docker.",
     "homepage": "https://github.com/spacering-net/codeg",
     "license": "Apache-2.0",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/spacering-net/codeg/releases/download/v0.37.0/codeg_0.37.0_x64-setup.exe#/dl.7z",
-            "hash": "46975fe7edb75c76a8d3b331bac7c115b09b59eab75a821822a5f89477cb0dc9"
+            "url": "https://github.com/spacering-net/codeg/releases/download/v0.38.0/codeg_0.38.0_x64-setup.exe#/dl.7z",
+            "hash": "3d3cacf5d9b456cac69065071d70ae0b4ef5441aab838d2546703cb5ddebe21e"
         }
     },
     "pre_install": "Remove-Item \"$dir\\`$PLUGINSDIR\", \"$dir\\uninstall.exe\" -Recurse -Force -ErrorAction SilentlyContinue",
