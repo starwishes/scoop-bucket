@@ -23,18 +23,19 @@ scoop install starwishes/<app>
 | `abdownloadmanager` | 1.11.1 | extras |
 | `adb` | 37.0.1 | main |
 | `bitcomet` | 2.22 | BitComet 官网 *(自建)* |
-| `codeg` | 0.35.1 | spacering-net/codeg *(自建)* |
+| `codeg` | 0.35.2 | spacering-net/codeg *(自建)* |
 | `ffmpeg` | 9.0.2 | main |
 | `filelight` | 26.08-2226 | extras |
 | `gh` | 2.102.0 | main |
 | `git` | 2.56.0.2 | main |
 | `github` | 3.6.7 | extras |
-| `innounp` | 2.71.1 | — |
+| `innounp` | 2.71.2 | — |
 | `Joplin` | 3.7.21 | extras |
 | `keepassxc` | 2.7.12 | extras |
 | `librewolf` | 158.0-1 | extras |
 | `lxmusic` | 2.12.6 | dorado |
 | `Meslo-NF` | 3.5.1 | nerd-fonts |
+| `myspotify` | 0.4.4 | margbug01/MySpotify *(自建)* |
 | `nodejs-lts` | 24.22.0 | main |
 | `obsidian` | 1.14.4 | extras |
 | `oh-my-posh` | 31.8.0 | main |
@@ -53,7 +54,7 @@ scoop install starwishes/<app>
 | `TightVNC` | 2.8.90 | extras |
 | `twinkle-tray` | 1.17.2 | extras |
 | `ungoogled-chromium` | 155.0.8059.39-1.1 | extras |
-| `vscode` | 1.141.2 | extras |
+| `vscode` | 1.142.0 | extras |
 | `wandao` | 1.5.3 | tllovesxs/wandao *(自建)* |
 | `windows-terminal` | 1.25.2733.0 | extras |
 | `winshun` | 0.8.0 | LingCore/WinShun *(自建)* |
@@ -75,6 +76,7 @@ scoop install starwishes/<app>
 | mingchen666/Reviva | <https://github.com/mingchen666/Reviva> |
 | BitComet | <https://www.bitcomet.com/> |
 | tllovesxs/wandao | <https://github.com/tllovesxs/wandao> |
+| margbug01/MySpotify | <https://github.com/margbug01/MySpotify> |
 
 ## 相对上游做的改动
 
@@ -101,9 +103,13 @@ scoop install starwishes/<app>
 - `wandao` 是 Tauri NSIS 安装器（同样 `#/dl.7z` + 清 `$PLUGINSDIR`/`uninstall.exe`）。它把用户数据放在
   %APPDATA%\wandao 而不是安装目录，所以**不需要 `persist`**；不走真安装器也顺带避开了它那段会去卸载
   旧版、写注册表项的迁移钩子。注意它自带 Tauri 在线更新，用 Scoop 管理时不要在应用内更新。
+- `myspotify` 取官方免安装 ZIP，zip 里是单层 `MySpotify-<版本>-windows-amd64` 目录，所以用 `extract_dir`
+  指定（`autoupdate` 里同步写了 `extract_dir: MySpotify-$version-windows-amd64`，否则版本一升就失效）。
+  数据全在安装目录外（%APPDATA%\Vinyl 与 %LOCALAPPDATA%\Vinyl），**不需要 `persist`**；
+  它也是 0.4.0 起自带应用内更新，用 Scoop 管理时请勿在应用内升级。
 
 这几条的 `autoupdate` 都不写 `hash`：`winshun` 从随附的 `SHA256SUMS.txt` 取；
-`codeg` / `reviva` / `wandao` 由 Scoop 自动读 GitHub release asset 的 `digest`；
+`codeg` / `reviva` / `wandao` / `myspotify` 由 Scoop 自动读 GitHub release asset 的 `digest`；
 `bitcomet` 取不到哈希源时，Scoop 会直接下载该文件自行计算 SHA256。
 
 `scripts/` 下的 `.reg` 文件用于注册右键菜单与文件关联，保持与上游一致。

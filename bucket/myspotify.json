@@ -1,0 +1,36 @@
+{
+    "version": "0.4.4",
+    "description": "Windows 上的 Spotify 播放器：Go 写的原生界面，免费账号也能整首播放，可看 MV，并支持手机与本机之间的播放接力（非官方客户端）。",
+    "homepage": "https://github.com/margbug01/MySpotify",
+    "license": "AGPL-3.0-only",
+    "notes": [
+        "这是非官方客户端，作者自己就写明：用它很可能不符合 Spotify 的用户条款，账号有被限制或封禁的风险。只用自己的账号，风险自负。",
+        "数据都在安装目录之外：设置、播放进度与记录、日志在 %APPDATA%\\Vinyl，登录态在 %LOCALAPPDATA%\\Vinyl\\WebView2，续期 cookie 加密存放在 %LOCALAPPDATA%\\Vinyl\\account-cookies。所以升级或卸载都不会清掉设置和登录。",
+        "exe 没有代码签名，首次运行时 Windows SmartScreen 会提示“已保护你的电脑”，需要点“更多信息 › 仍要运行”。",
+        "需要 WebView2 运行时（Windows 11 已内置）。0.4.0 起应用内自带“检查更新”，会直接覆盖安装目录里的文件；用 Scoop 管理时请改用 `scoop update myspotify`，不要在应用内更新。"
+    ],
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/margbug01/MySpotify/releases/download/v0.4.4/MySpotify-0.4.4-windows-amd64.zip",
+            "hash": "95f2d7b99e6e3d549a45745c3363d34c8651b0eb79d8be7bd8914db13c930626"
+        }
+    },
+    "extract_dir": "MySpotify-0.4.4-windows-amd64",
+    "shortcuts": [
+        [
+            "MySpotify.exe",
+            "MySpotify"
+        ]
+    ],
+    "checkver": {
+        "github": "https://github.com/margbug01/MySpotify"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/margbug01/MySpotify/releases/download/v$version/MySpotify-$version-windows-amd64.zip"
+            }
+        },
+        "extract_dir": "MySpotify-$version-windows-amd64"
+    }
+}
