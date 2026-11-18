@@ -1,0 +1,45 @@
+{
+    "version": "2.8.0",
+    "description": "文澜 AI（WenlanAI）—— 面向中文小说创作的 AI 工具：角色管理、剧情规划、章节生成、长期记忆与 MCP 插件，FastAPI 后端 + WebView2 桌面窗口一体发布。",
+    "homepage": "https://github.com/ddys9621/WenlanAI",
+    "license": "GPL-3.0-only",
+    "notes": [
+        "界面基于 WebView2 渲染，Windows 11 已内置；Windows 10 需要先装 Evergreen WebView2 Runtime。",
+        "上游是 Inno Setup 打包的 PyInstaller 目录版，本 manifest 只解包（innosetup）、不运行安装器：不写注册表，也没有卸载程序。",
+        "运行时数据都写在安装目录内：data\\（SQLite + 向量库 + WebView2 缓存）、embedding\\（向量模型）、logs\\、config.ini（AI Key 配置）。已用 persist 接到 $persist_dir，scoop update 不会丢。",
+        "首次启动会自动下载中文 bge-small-zh-v1.5 向量模型（约 95 MB）；AI Key 填在 config.ini 的 [ai] 段，改完重启应用生效。"
+    ],
+    "innosetup": true,
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/ddys9621/WenlanAI/releases/download/v2.8.0/WenlanAI-Setup-v2.8.0.exe",
+            "hash": "8ce706bfc31cf6f206088f9e94ed1289db46e65255abae4ec4133e971061d05d"
+        }
+    },
+    "pre_install": [
+        "if (!(Test-Path (Join-Path $dir 'config.ini'))) { Copy-Item (Join-Path $dir '_internal/config.ini.template') (Join-Path $dir 'config.ini') -Force }",
+        "'data','logs','embedding' | ForEach-Object { New-Item -ItemType Directory -Force -Path (Join-Path $dir $_) | Out-Null }"
+    ],
+    "shortcuts": [
+        [
+            "WenlanAI.exe",
+            "文澜 AI"
+        ]
+    ],
+    "persist": [
+        "data",
+        "config.ini",
+        "embedding",
+        "logs"
+    ],
+    "checkver": {
+        "github": "https://github.com/ddys9621/WenlanAI"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/ddys9621/WenlanAI/releases/download/v$version/WenlanAI-Setup-v$version.exe"
+            }
+        }
+    }
+}

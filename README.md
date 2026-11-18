@@ -55,6 +55,7 @@ scoop install starwishes/<app>
 | `ungoogled-chromium` | 156.0.8078.73-1.1 | extras |
 | `vscode` | 1.144.0 | extras |
 | `wandao` | 1.5.3 | tllovesxs/wandao *(自建)* |
+| `wenlanai` | 2.8.0 | ddys9621/WenlanAI *(自建)* |
 | `windows-terminal` | 1.25.2733.0 | extras |
 | `winshun` | 0.17.0 | LingCore/WinShun *(自建)* |
 | `yasb` | 2.0.7 | extras |
