@@ -24,6 +24,7 @@ scoop install starwishes/<app>
 | `adb` | 37.0.1 | main |
 | `bitcomet` | 2.23 | BitComet 官网 *(自建)* |
 | `codeg` | 0.41.3 | spacering-net/codeg *(自建)* |
+| `edgeever` | 2.30.0 | tianma-if/edgeever *(自建)* |
 | `ffmpeg` | 9.0.2 | main |
 | `filelight` | 26.08-2226 | extras |
 | `gh` | 2.103.3 | main |
@@ -73,6 +74,7 @@ scoop install starwishes/<app>
 | abgo_bucket | <https://github.com/abgox/abgo_bucket> |
 | LingCore/WinShun | <https://github.com/LingCore/WinShun> |
 | spacering-net/codeg | <https://github.com/spacering-net/codeg> |
+| tianma-if/edgeever | <https://github.com/tianma-if/edgeever> |
 | mingchen666/Reviva | <https://github.com/mingchen666/Reviva> |
 | BitComet | <https://www.bitcomet.com/> |
 | tllovesxs/wandao | <https://github.com/tllovesxs/wandao> |
@@ -102,9 +104,12 @@ scoop install starwishes/<app>
 - `wandao` 是 Tauri NSIS 安装器（同样 `#/dl.7z` + 清 `$PLUGINSDIR`/`uninstall.exe`）。它把用户数据放在
   %APPDATA%\wandao 而不是安装目录，所以**不需要 `persist`**；不走真安装器也顺带避开了它那段会去卸载
   旧版、写注册表项的迁移钩子。注意它自带 Tauri 在线更新，用 Scoop 管理时不要在应用内更新。
+- `edgeever` 也是 electron-builder NSIS 安装器，与 `reviva` 同样两步解包（`#/dl.7z` → `pre_install` 解
+  `$PLUGINSDIR\app-64.7z`，再清掉 `$PLUGINSDIR` / `$R0`）。数据在 %APPDATA%\@edgeever\desktop，**不需要 `persist`**。
+  它自带 electron-updater，应用内更新会另装一份独立程序，用 Scoop 时请走 `scoop update edgeever`。
 
 这几条的 `autoupdate` 都不写 `hash`：`winshun` 从随附的 `SHA256SUMS.txt` 取；
-`codeg` / `reviva` / `wandao` 由 Scoop 自动读 GitHub release asset 的 `digest`；
+`codeg` / `reviva` / `wandao` / `edgeever` 由 Scoop 自动读 GitHub release asset 的 `digest`；
 `bitcomet` 取不到哈希源时，Scoop 会直接下载该文件自行计算 SHA256。
 
 `scripts/` 下的 `.reg` 文件用于注册右键菜单与文件关联，保持与上游一致。

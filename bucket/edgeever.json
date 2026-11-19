@@ -1,0 +1,38 @@
+{
+    "version": "2.30.0",
+    "description": "EdgeEver（边记）—— AI 原生的笔记知识与剪藏应用，印象笔记 / Obsidian 的开源替代品：富文本与 Markdown 双视图、全渠道结构化剪藏、多端秒级同步、MCP/ACP Agent 互联，服务端可自托管在 Cloudflare 或 Docker。",
+    "homepage": "https://github.com/tianma-if/edgeever",
+    "license": "AGPL-3.0-only",
+    "notes": [
+        "桌面端基于 Electron，数据（edgeever.sqlite 等）在 %APPDATA%\\@edgeever\\desktop，不在安装目录，升级或卸载都不会丢。",
+        "上游是 electron-builder 的 NSIS 安装器：本 manifest 不运行安装器，只做两步解包（外层 #/dl.7z，再在 pre_install 里解 $PLUGINSDIR\\app-64.7z），不写注册表、没有卸载程序。",
+        "桌面端只是前端壳：首次启动要填一个 EdgeEver 实例地址（自建 Cloudflare Worker 或 Docker，见仓库 docs 里的自托管说明），没有实例时只能停在配置/登录页。",
+        "自带 electron-updater 在线更新：应用内点更新会另装一份独立程序，与 Scoop 这份并存。用 Scoop 管理时请跳过应用内更新，改用 `scoop update edgeever`。"
+    ],
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/tianma-if/edgeever/releases/download/v2.30.0/EdgeEver-2.30.0-windows-x64.exe#/dl.7z",
+            "hash": "c8776532f1d4bce9e7702c531467cb87dea8dcd479bac015f3815c1fdfc65827"
+        }
+    },
+    "pre_install": [
+        "Expand-7zipArchive \"$dir\\`$PLUGINSDIR\\app-64.7z\" \"$dir\" -Removal",
+        "Remove-Item \"$dir\\`$PLUGINSDIR\", \"$dir\\`$R0\" -Recurse -Force -ErrorAction SilentlyContinue"
+    ],
+    "shortcuts": [
+        [
+            "EdgeEver.exe",
+            "EdgeEver"
+        ]
+    ],
+    "checkver": {
+        "github": "https://github.com/tianma-if/edgeever"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/tianma-if/edgeever/releases/download/v$version/EdgeEver-$version-windows-x64.exe#/dl.7z"
+            }
+        }
+    }
+}
