@@ -1,0 +1,36 @@
+{
+    "version": "1.3.2",
+    "description": "Nexus —— 本地 AI 控制面板：用 Secure MCP Tunnel 把 ChatGPT、DeepSeek 等网页版 AI 助手安全接到本机的文件、终端、Git、桌面自动化与游戏开发工具上，提供 332 个规范化 MCP 工具，权限边界与操作台账由用户自己控制。",
+    "homepage": "https://github.com/ysunyang4/Nexus",
+    "license": "AGPL-3.0-only",
+    "notes": [
+        "界面基于 WebView2 渲染（Tauri 2），Windows 11 已内置；Windows 10 需先装 Evergreen WebView2 Runtime。",
+        "启动后常驻系统托盘，本地 Fastify MCP/REST 服务监听 127.0.0.1:18080（MCP 端点 http://127.0.0.1:18080/mcp），SQLite（WAL）持久化。",
+        "用户数据不在安装目录，因此升级与卸载都不会丢失，也不需要 persist。",
+        "上游安装器会写注册表项、开始菜单项和卸载信息；本 manifest 不运行安装器、只解包，这些都不会发生。",
+        "若以前用官方安装器装过 Nexus，两份会并存（且共用同一份用户数据）。"
+    ],
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/ysunyang4/Nexus/releases/download/v1.3.2/Nexus_1.3.2_x64-setup.exe#/dl.7z",
+            "hash": "97e9d661ffc9f398a151b95a126d26018669f31b505a3a69878a5a9a24dd60dc"
+        }
+    },
+    "pre_install": "Remove-Item \"$dir\\`$PLUGINSDIR\", \"$dir\\uninstall.exe\" -Recurse -Force -ErrorAction SilentlyContinue",
+    "shortcuts": [
+        [
+            "localbridge-desktop.exe",
+            "Nexus"
+        ]
+    ],
+    "checkver": {
+        "github": "https://github.com/ysunyang4/Nexus"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/ysunyang4/Nexus/releases/download/v$version/Nexus_$version_x64-setup.exe#/dl.7z"
+            }
+        }
+    }
+}
