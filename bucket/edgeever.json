@@ -1,5 +1,5 @@
 {
-    "version": "2.30.0",
+    "version": "2.31.0",
     "description": "EdgeEver（边记）—— AI 原生的笔记知识与剪藏应用，印象笔记 / Obsidian 的开源替代品：富文本与 Markdown 双视图、全渠道结构化剪藏、多端秒级同步、MCP/ACP Agent 互联，服务端可自托管在 Cloudflare 或 Docker。",
     "homepage": "https://github.com/tianma-if/edgeever",
     "license": "AGPL-3.0-only",
@@ -11,8 +11,8 @@
     ],
     "architecture": {
         "64bit": {
-            "url": "https://github.com/tianma-if/edgeever/releases/download/v2.30.0/EdgeEver-2.30.0-windows-x64.exe#/dl.7z",
-            "hash": "c8776532f1d4bce9e7702c531467cb87dea8dcd479bac015f3815c1fdfc65827"
+            "url": "https://github.com/tianma-if/edgeever/releases/download/v2.31.0/EdgeEver-2.31.0-windows-x64.exe#/dl.7z",
+            "hash": "a5f45492a75e9e955b48555f080bf358984b1eafe0ef28cdce17d1e6803ffb61"
         }
     },
     "pre_install": [
