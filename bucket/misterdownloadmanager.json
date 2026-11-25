@@ -1,0 +1,42 @@
+{
+  "version": "0.5.2",
+  "description": "开源下载管理器（Rust + egui）：多线程加速、BT/磁力、yt-dlp/gallery-dl/m3u8 抓取、Debrid 支持，IDM 的替代品。",
+  "homepage": "https://misterdownloadmanager.com",
+  "license": "GPL-3.0-only",
+  "architecture": {
+    "64bit": {
+      "url": "https://github.com/anefzaoui/misterdownloadmanager/releases/download/v0.5.2/MisterDownloadManager-0.5.2-portable.zip",
+      "hash": "0907a6c6aed5c4967e89549e883147d2b33b073e6f8b0d914dff84d32f3b7cf7",
+      "extract_dir": "MisterDownloadManager-0.5.2-portable"
+    }
+  },
+  "bin": [
+    "misterdownloadmanager-cli.exe",
+    "misterdownloadmanager-mcp.exe"
+  ],
+  "shortcuts": [
+    [
+      "misterdownloadmanager.exe",
+      "Mister Download Manager"
+    ]
+  ],
+  "persist": [
+    "data"
+  ],
+  "notes": [
+    "便携版：下载列表与设置保存在安装目录的 data 子目录（已 persist），不写注册表。",
+    "浏览器扩展集成需要官方安装器版本；免安装版可用 release 里的 extension-chromium.zip 手动加载扩展。",
+    "misterdownloadmanager-mcp.exe 为 MCP 服务端，misterdownloadmanager-cli.exe 为命令行抓取工具，均已加入 PATH。"
+  ],
+  "checkver": {
+    "github": "https://github.com/anefzaoui/misterdownloadmanager"
+  },
+  "autoupdate": {
+    "architecture": {
+      "64bit": {
+        "url": "https://github.com/anefzaoui/misterdownloadmanager/releases/download/v$version/MisterDownloadManager-$version-portable.zip",
+        "extract_dir": "MisterDownloadManager-$version-portable"
+      }
+    }
+  }
+}

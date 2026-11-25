@@ -36,6 +36,7 @@ scoop install starwishes/<app>
 | `librewolf` | 159.0-1 | extras |
 | `lxmusic` | 2.12.6 | dorado |
 | `Meslo-NF` | 3.5.1 | nerd-fonts |
+| `misterdownloadmanager` | 0.5.2 | anefzaoui/misterdownloadmanager *(自建)* |
 | `nodejs-lts` | 26.13.0 | main |
 | `obsidian` | 1.14.5 | extras |
 | `oh-my-posh` | 31.9.1 | main |
@@ -78,6 +79,7 @@ scoop install starwishes/<app>
 | mingchen666/Reviva | <https://github.com/mingchen666/Reviva> |
 | BitComet | <https://www.bitcomet.com/> |
 | tllovesxs/wandao | <https://github.com/tllovesxs/wandao> |
+| anefzaoui/misterdownloadmanager | <https://github.com/anefzaoui/misterdownloadmanager> |
 
 ## 相对上游做的改动
 
@@ -107,8 +109,12 @@ scoop install starwishes/<app>
 - `edgeever` 也是 electron-builder NSIS 安装器，与 `reviva` 同样两步解包（`#/dl.7z` → `pre_install` 解
   `$PLUGINSDIR\app-64.7z`，再清掉 `$PLUGINSDIR` / `$R0`）。数据在 %APPDATA%\@edgeever\desktop，**不需要 `persist`**。
   它自带 electron-updater，应用内更新会另装一份独立程序，用 Scoop 时请走 `scoop update edgeever`。
+- `misterdownloadmanager` 取官方免安装 `MisterDownloadManager-<ver>-portable.zip`，`extract_dir` 指向包内的同名目录。
+  它的便携模式把下载列表与设置放在程序目录的 `data` 子目录里，所以 `persist` `data`；`-cli` / `-mcp` 两个
+  可执行文件一并加入 PATH。浏览器扩展集成只随官方安装器提供，免安装版需手动加载 release 里的
+  `extension-chromium.zip`。
 这几条的 `autoupdate` 都不写 `hash`：`winshun` 从随附的 `SHA256SUMS.txt` 取；
-`codeg` / `reviva` / `wandao` / `edgeever` 由 Scoop 自动读 GitHub release asset 的 `digest`；
+`codeg` / `reviva` / `wandao` / `edgeever` / `misterdownloadmanager` 由 Scoop 自动读 GitHub release asset 的 `digest`；
 `bitcomet` 取不到哈希源时，Scoop 会直接下载该文件自行计算 SHA256。
 
 `scripts/` 下的 `.reg` 文件用于注册右键菜单与文件关联，保持与上游一致。
