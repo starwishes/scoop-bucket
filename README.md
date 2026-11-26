@@ -115,8 +115,14 @@ scoop install starwishes/<app>
   `pre_install` 里先把唯一子目录的内容摊平、再重命名 exe，安装源写 `starwishes/qview-nightly`。
 - `misterdownloadmanager` 取官方免安装 `MisterDownloadManager-<ver>-portable.zip`，`extract_dir` 指向包内的同名目录。
   它的便携模式把下载列表与设置放在程序目录的 `data` 子目录里，所以 `persist` `data`；`-cli` / `-mcp` 两个
-  可执行文件一并加入 PATH。浏览器扩展集成只随官方安装器提供，免安装版需手动加载 release 里的
-  `extension-chromium.zip`。
+  可执行文件一并加入 PATH。便携模式本身不写注册表，浏览器扩展的原生消息宿主无法自行注册，所以本仓库在
+  `post_install` 里代它写一份 host manifest 到 `persist\misterdownloadmanager\native-host\`（`path` 指向
+  `apps\misterdownloadmanager\current\misterdownloadmanager-nmhost.exe`，`allowed_extensions` 为
+  `integration@misterdownloadmanager.com`），并注册 `HKCU\Software\Mozilla\NativeMessagingHosts\` 与
+  `HKCU\Software\LibreWolf\NativeMessagingHosts\` 两处键、复制一份到 `%APPDATA%\Mozilla\NativeMessagingHosts\`；
+  `pre_uninstall` 再把它们清掉。Firefox / LibreWolf 装 AMO 上的扩展后弹窗即显示「已连接到 Mister Download Manager」；
+  Chromium 系（Chrome/Edge/Brave/Vivaldi/Opera）要另写 `allowed_origins` 版 manifest 并注册各自键，扩展可用安装目录里的
+  `extension\chromium` 手动加载。
 这几条的 `autoupdate` 都不写 `hash`：`winshun` 从随附的 `SHA256SUMS.txt` 取；
 `codeg` / `reviva` / `wandao` / `edgeever` / `misterdownloadmanager` 由 Scoop 自动读 GitHub release asset 的 `digest`；
 `bitcomet` 取不到哈希源时，Scoop 会直接下载该文件自行计算 SHA256。

@@ -23,9 +23,20 @@
   "persist": [
     "data"
   ],
+  "post_install": [
+    "$target = \"$persist_dir\\native-host\\com.misterdownloadmanager.host.json\"; New-Item -ItemType Directory -Force -Path (Split-Path $target) | Out-Null; $exe = Join-Path (Split-Path $dir -Parent) 'current\\misterdownloadmanager-nmhost.exe'; [pscustomobject]@{ name = 'com.misterdownloadmanager.host'; description = 'Mister Download Manager browser integration host'; path = $exe; type = 'stdio'; allowed_extensions = @('integration@misterdownloadmanager.com') } | ConvertTo-Json -Depth 4 | Set-Content -Path $target -Encoding ascii",
+    "foreach ($k in @('HKCU:\\Software\\Mozilla\\NativeMessagingHosts\\com.misterdownloadmanager.host', 'HKCU:\\Software\\LibreWolf\\NativeMessagingHosts\\com.misterdownloadmanager.host')) { New-Item -Path $k -Force | Out-Null; Set-ItemProperty -Path $k -Name '(Default)' -Value $target }",
+    "$ff = Join-Path $env:APPDATA 'Mozilla\\NativeMessagingHosts'; New-Item -ItemType Directory -Force -Path $ff | Out-Null; Copy-Item $target (Join-Path $ff 'com.misterdownloadmanager.host.json') -Force"
+  ],
+  "pre_uninstall": [
+    "foreach ($k in @('HKCU:\\Software\\Mozilla\\NativeMessagingHosts\\com.misterdownloadmanager.host', 'HKCU:\\Software\\LibreWolf\\NativeMessagingHosts\\com.misterdownloadmanager.host')) { if (Test-Path $k) { Remove-Item -Path $k -Recurse -Force } }",
+    "Remove-Item -Path (Join-Path $env:APPDATA 'Mozilla\\NativeMessagingHosts\\com.misterdownloadmanager.host.json') -Force -ErrorAction Ignore; Remove-Item -Path \"$persist_dir\\native-host\" -Recurse -Force -ErrorAction Ignore"
+  ],
   "notes": [
-    "便携版：下载列表与设置保存在安装目录的 data 子目录（已 persist），不写注册表。",
-    "浏览器扩展集成需要官方安装器版本；免安装版可用 release 里的 extension-chromium.zip 手动加载扩展。",
+    "便携版：下载列表与设置保存在安装目录的 data 子目录（已 persist），程序自身不写注册表。",
+    "已随安装注册 Firefox / LibreWolf 原生消息宿主（HKCU 下 Mozilla 与 LibreWolf 两处键，指向 persist\\native-host 的 host manifest），扩展装好后弹窗应显示「已连接到 Mister Download Manager」。",
+    "Firefox / LibreWolf 扩展：https://addons.mozilla.org/ 搜 Mister Download Manager，要求 Firefox 140+。",
+    "Chromium 系（Chrome/Edge/Brave/Vivaldi/Opera）需自行写一份 allowed_origins 版本的 host manifest 再注册对应浏览器键；扩展可用安装目录 extension\\chromium 手动加载。",
     "misterdownloadmanager-mcp.exe 为 MCP 服务端，misterdownloadmanager-cli.exe 为命令行抓取工具，均已加入 PATH。"
   ],
   "checkver": {
