@@ -34,7 +34,7 @@
   ],
   "notes": [
     "便携版：下载列表与设置保存在安装目录的 data 子目录（已 persist），程序自身不写注册表。",
-    "已随安装注册 Firefox / LibreWolf 原生消息宿主（HKCU 下 Mozilla 与 LibreWolf 两处键，指向 persist\\native-host 的 host manifest），扩展装好后弹窗应显示「已连接到 Mister Download Manager」。",
+    "已随安装注册 Firefox / LibreWolf 原生消息宿主：host manifest 放在 persist 的 native-host 子目录，HKCU 下 Mozilla 与 LibreWolf 两处注册表键指向它，扩展装好后弹窗显示「已连接到 Mister Download Manager」。",
     "Firefox / LibreWolf 扩展：https://addons.mozilla.org/ 搜 Mister Download Manager，要求 Firefox 140+。",
     "Chromium 系（Chrome/Edge/Brave/Vivaldi/Opera）需自行写一份 allowed_origins 版本的 host manifest 再注册对应浏览器键；扩展可用安装目录 extension\\chromium 手动加载。",
     "misterdownloadmanager-mcp.exe 为 MCP 服务端，misterdownloadmanager-cli.exe 为命令行抓取工具，均已加入 PATH。"
