@@ -121,8 +121,12 @@ scoop install starwishes/<app>
   `integration@misterdownloadmanager.com`），并注册 `HKCU\Software\Mozilla\NativeMessagingHosts\` 与
   `HKCU\Software\LibreWolf\NativeMessagingHosts\` 两处键、复制一份到 `%APPDATA%\Mozilla\NativeMessagingHosts\`；
   `pre_uninstall` 再把它们清掉。Firefox / LibreWolf 装 AMO 上的扩展后弹窗即显示「已连接到 Mister Download Manager」；
-  Chromium 系（Chrome/Edge/Brave/Vivaldi/Opera）要另写 `allowed_origins` 版 manifest 并注册各自键，扩展可用安装目录里的
-  `extension\chromium` 手动加载。
+  Chromium 系另写一份 `allowed_origins` 版（`persist\misterdownloadmanager\native-host\com.misterdownloadmanager.host.chromium.json`），
+  扩展 ID 由安装目录 `extension\chromium\manifest.json` 的 `key`（DER SPKI）推算：SHA-256 取前 16 字节，每个十六进制
+  半字节 n 映射成字母 `'a'+n`，本版为 `oogbclbbninliongijffeeggalppliok`；注册 `HKCU\Software\` 下
+  `Google\Chrome`、`Microsoft\Edge`、`Chromium`、`BraveSoftware\Brave-Browser`、`Vivaldi` 各自的 `NativeMessagingHosts` 键。
+  实测用该 ID 作 argv[1] 调 `misterdownloadmanager-nmhost.exe` 时不再输出 `refusing caller ...: not the Mister Download Manager extension`，
+  换任意假 ID 则被拒——说明 origin 校验按扩展 key 走，与商店版 ID 一致。
 这几条的 `autoupdate` 都不写 `hash`：`winshun` 从随附的 `SHA256SUMS.txt` 取；
 `codeg` / `reviva` / `wandao` / `edgeever` / `misterdownloadmanager` 由 Scoop 自动读 GitHub release asset 的 `digest`；
 `bitcomet` 取不到哈希源时，Scoop 会直接下载该文件自行计算 SHA256。
