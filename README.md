@@ -44,7 +44,7 @@ scoop install starwishes/<app>
 | `potplayer` | 261021 | extras |
 | `python311` | 3.11.9 | versions |
 | `qbittorrent-enhanced` | 5.2.4.10 | extras |
-| `qview-nightly` | 18433912418 | versions |
+| `qview-nightly` | 41787387905 | versions *(自建覆盖)* |
 | `Rclone` | 1.75.2 | main |
 | `reviva` | 1.4.2 | mingchen666/Reviva *(自建)* |
 | `scoop-search` | 2.1.0 | — |
@@ -109,6 +109,10 @@ scoop install starwishes/<app>
 - `edgeever` 也是 electron-builder NSIS 安装器，与 `reviva` 同样两步解包（`#/dl.7z` → `pre_install` 解
   `$PLUGINSDIR\app-64.7z`，再清掉 `$PLUGINSDIR` / `$R0`）。数据在 %APPDATA%\@edgeever\desktop，**不需要 `persist`**。
   它自带 electron-updater，应用内更新会另装一份独立程序，用 Scoop 时请走 `scoop update edgeever`。
+- `qview-nightly` 覆盖 `versions` 上游版：2026-11-05 起 nightly zip 把文件放进了一层
+  `qView-nightly-Windows_<arch>-<date>.<attempt>\` 子目录，上游 `pre_install` 仍在根目录找
+  `qView-nightly-*.exe`，于是 `Can't shim 'qView.exe': File doesn't exist.`。本仓库版本在
+  `pre_install` 里先把唯一子目录的内容摊平、再重命名 exe，安装源写 `starwishes/qview-nightly`。
 - `misterdownloadmanager` 取官方免安装 `MisterDownloadManager-<ver>-portable.zip`，`extract_dir` 指向包内的同名目录。
   它的便携模式把下载列表与设置放在程序目录的 `data` 子目录里，所以 `persist` `data`；`-cli` / `-mcp` 两个
   可执行文件一并加入 PATH。浏览器扩展集成只随官方安装器提供，免安装版需手动加载 release 里的
